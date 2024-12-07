@@ -11,7 +11,7 @@ node Node {
     }
 }
 
-walker DFS {
+walker BFS {
 
     has number: int;
     has traversal: list;
