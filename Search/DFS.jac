@@ -1,13 +1,14 @@
-# Iterative version of Depth First Search algorithm
-# Can use Adjacency List/ Adjacency Matrix/ Edge List
-
 node Node {
     has val: str;
     has visited: bool;
+    has prev: node;
+    has stack: list;
 
     can init(val: str){
         self.visited = False;
         self.val = val;
+        self.prev = None;
+        self.stack = [];
     }
 }
 
@@ -20,16 +21,41 @@ walker DFS {
         self.number = 0;
         self.traversal = [];
     }
+
+
     can traverse with Node entry {
-        if(here.visited == False){
-            print(f"Visiting Node {self.number}:", here.val);
-            here.visited = True;
+        if here.val not in self.traversal{
+            here.stack = [here-->];
             self.traversal.append(here.val);
-            print("Current Traversal: ",self.traversal);
-            self.number+=1;
-            visit[-->];
+        }
+        print(self.traversal);
+        if(len(here.stack) !=0)
+        {
+            top = here.stack.pop();
+            top.prev = here;
+            # print("TOP",top);
+            visit[top];
+        }
+        else
+        {
+            if(here.prev){
+                visit[here.prev];
+            }
+            else
+            {
+                print("Finished");
+            }
         }
     }
+
+
+#*
+ Go to node , check if its visited , if not then mark. Pick one node that follows , which has not been visited and move. 
+ If you reach a node from where you cant make any jumps, then backtrack
+
+ Backtrack -> Track prev nodes , back to prev node.
+
+*#
 
 }
 
@@ -45,14 +71,12 @@ with entry {
 
     # Connect Nodes
 
-    a++>b;
-    a++>c;
-    b++>d;
-    b++>e;
-    c++>f;
-    e++>f;
+    a<++>[b,c];
+    b<++>[d,e];
+    c<++>f;
+    e<++>f;
 
-    # Assign start by connecting to Root
+    # Spawn Walker
     a spawn DFS();
 
 }
